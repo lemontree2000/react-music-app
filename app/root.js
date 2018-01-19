@@ -8,19 +8,24 @@ let Root = React.createClass({
       progress: '-'
     }
   },
+  componentWillUnMount() {
+    $('#player').unbind($.jPlayer.event.timeupdate);
+  },
   componentDidMount() {
+    console.log($('#player'));
     $('#player').jPlayer({
       ready: function() {
         $(this).jPlayer('setMedia', {
-          map3: ''
+          mp3: 'http://103.22.228.3:8081/IXC839a6753eb1ee8f00bc1581bc30b2266_59.63.206.53/13/203/407090.mp3'
         }).jPlayer('play');
       },
       supplied: 'mp3',
       wmode: 'window'
     });
     $('#player').bind($.jPlayer.event.timeupdate, (e) => {
+      console.log(e.jPlayer.status.currentPercentAbsolute);
       this.setState({
-        progress: Math.round(e.jPlayer.status.currentTime)
+        progress: e.jPlayer.status.currentPercentAbsolute
       });
     })
   },
@@ -28,7 +33,7 @@ let Root = React.createClass({
     return (
       <div>
         <Header />
-        <Progress progress="1">
+        <Progress progress={this.state.progress}>
         </Progress>
       </div>
     );
