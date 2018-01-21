@@ -7,7 +7,8 @@ let Player = React.createClass({
   getInitialState() {
     return {
       progress: 0,
-      volume: 0
+      volume: 0,
+      isPlay: true
     }
   },
   componentDidMount() {
@@ -18,6 +19,17 @@ let Player = React.createClass({
         volume: e.jPlayer.options.volume * 100
       });
     })
+  },
+  paly() {
+    if (this.state.isPlay) {
+      $('#palyer').jPlayer('pause');
+    } else {
+      $('#palyer').jPlayer('play');
+    }
+    this.setState({
+      isPlay: !this.state.isPlay
+    });
+    console.log('1');
   },
   componentWillUnMount() {
     $('#player').unbind($.jPlayer.event.timeupdate);
@@ -63,7 +75,7 @@ let Player = React.createClass({
               <div className="mt35 row">
                 <div>
                   <i className="icon prev"></i>
-                  <i className="icon ml20" ></i>
+                  <i className={`icon ml20 ${this.state.isPlay? 'play' :'pause'}`} onClick={this.paly}></i>
                   <i className="icon next ml20"></i>
                 </div>
                 <div className="-col-auto">
